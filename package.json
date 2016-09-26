@@ -24,13 +24,14 @@
     "node": ">= 0.8.0"
   },
   "dependencies": {
-    "bluebird": "^2.4.2",
+    "bluebird": "^3.4.6",
     "colors": "^1.0.3",
     "corser": "~2.0.0",
     "couchdb-harness": "*",
     "couchdb-log-parse": "^0.0.3",
+    "dynamodbdown": "^2.1.4",
     "express": "^4.10.4",
-    "express-pouchdb": "~1.0.4",
+    "express-pouchdb": "^2.0.0",
     "http-pouchdb": "^1.1.0",
     "killable": "^1.0.0",
     "memdown": "^1.0.0",

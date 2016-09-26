@@ -61,6 +61,13 @@ var options = {
     couchDefault: false,
     onChange: updatePouchDB
   },
+  'dynamodb': {
+    info: "Use PouchDB over DynamoDB instead of LevelDOWN",
+    flag: true,
+    couchName: ['pouchdb_server', 'dynamodb'],
+    couchDefault: false,
+    onChange: updatePouchDB
+  },
   proxy: {
     abbr: 'r',
     info: "Proxy requests to the specified host. Include a trailing '/'.",
@@ -222,6 +229,15 @@ function updatePouchDB() {
     opts.db = require(getArg('level-backend'));
   } else if (getArg('sqlite')) {
     opts.adapter = 'websql';
+  } else if (getArg('dynamodb')) {
+    opts.db = require('dynamodbdown');
+    opts.dynamodb = {
+      region: config.get('dynamodb', 'region'),
+      accessKeyId: config.get('dynamodb', 'accessKeyId'),
+      secretAccessKey: config.get('dynamodb', 'secretAccessKey'),
+      hexEncodeTableName: config.get('dynamodb', 'hexEncodeTableName'),
+      endpoint: config.get('dynamodb', 'endpoint')
+    };
   }
 
   var ThisPouchDB;
@@ -261,6 +277,8 @@ function listenImpl() {
       logger.info('database is in-memory; no changes will be saved.');
     } else if (getArg('sqlite')) {
       logger.info('database will use sqlite3.');
+    } else if (getArg('dynamodb')) {
+      logger.info('database will use dynamodb.');
     }
     if (getArg('dir') !== options.dir.couchDefault) {
       logger.info('database files will be saved to ' + getArg('dir'));
